@@ -22,10 +22,6 @@ export const authRoutes: RouteObject[] = [
         element: <ForgotPasswordPage />,
       },
       {
-        path: "/otp-verification",
-        element: <OtpVerificationPage />,
-      },
-      {
         path: "/verify-otp",
         element: <OtpVerificationPage />,
       },
