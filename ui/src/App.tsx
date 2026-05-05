@@ -1,10 +1,13 @@
-import { Button } from "./components/ui/button";
+import { Header } from "./components/Header";
+import AllAppointments from "./pages/admin/AllAppointments";
 
 export const App = () => {
   return (
-    <div>
-      <h1> Template UI </h1>
-      <Button>Button</Button>
+    <div className="w-screen h-screen bg-accent-foreground justify-center flex">
+      <div className="w-1/2 flex flex-col  gap-5 py-5 ">
+        <Header />
+        <AllAppointments />
+      </div>
     </div>
   );
 };
