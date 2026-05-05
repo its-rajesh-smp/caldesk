@@ -1,10 +1,18 @@
 export interface Appointment {
   id: string;
-  title: string;
-  description: string;
+  name: string;
+  title?: string;
+  description?: string;
+  url?: string;
 
-  hostId: string;
+  startDateTime?: Date | string;
+  endDateTime?: Date | string;
 
-  createdAt: Date;
-  updatedAt: Date;
+  hostId?: string;
+  ownerId?: string;
+  owner_id?: string;
+  status?: "active" | "inactive";
+
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
