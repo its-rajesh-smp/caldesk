@@ -1,8 +1,8 @@
-import { CreateAppointmentCard } from "@/features/admin/components/CreateAppointmentCard";
+import { CreateAppointmentCard } from "@/features/admin/components/appointment/CreateAppointmentCard";
 
 const AllAppointments = () => {
   return (
-    <div className="bg-background">
+    <div>
       <CreateAppointmentCard />
     </div>
   );
