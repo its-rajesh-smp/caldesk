@@ -4,14 +4,28 @@ import { Card } from "@/components/ui/card";
 import { InputField } from "@/components/ui/input-field";
 import { SelectField } from "@/components/ui/select-field";
 import { TextareaField } from "@/components/ui/textarea-field";
+import { createAppointment } from "@/features/admin/apis/createAppointment";
+import { useMutation } from "@tanstack/react-query";
 
 const AppointmentTypes = ["One Time", "Recurring"];
 
 export const CreateAppointment = () => {
+  const mutation = useMutation({
+    mutationFn: createAppointment,
+    onSuccess: () => {
+      console.log("appointment created");
+    },
+  });
+
+  const onSubmit = (e: React.SubmitEvent) => {
+    e.preventDefault();
+    mutation.mutate();
+  };
+
   return (
     <Card className="bg-background p-5">
       <h1 className="text-3xl font-bold">Create Appointment</h1>
-      <form className=" flex flex-col gap-5">
+      <form onSubmit={onSubmit} className=" flex flex-col gap-5">
         <InputField label="Title" placeholder="Eg. Monday Standup" />
         <TextareaField
           label="Description"
@@ -65,7 +79,7 @@ export const CreateAppointment = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button>Create</Button>
+          <Button type="submit">Create</Button>
         </div>
       </form>
     </Card>
