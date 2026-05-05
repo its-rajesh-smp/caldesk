@@ -5,11 +5,13 @@ interface InputFieldProps {
   label?: string;
   placeholder?: string;
   fieldDescription?: string;
+  fieldClassName?: string;
+  defaultValue?: string;
 }
 
 export function InputField(props: InputFieldProps) {
   return (
-    <Field>
+    <Field className={props.fieldClassName}>
       {props.label && (
         <FieldLabel htmlFor={`input-field-${props.label}`}>
           {props.label}
@@ -20,6 +22,7 @@ export function InputField(props: InputFieldProps) {
         id={`input-field-${props.label}`}
         type="text"
         placeholder={props.placeholder}
+        defaultValue={props.defaultValue}
       />
       {props.fieldDescription && (
         <FieldDescription>{props.fieldDescription}</FieldDescription>

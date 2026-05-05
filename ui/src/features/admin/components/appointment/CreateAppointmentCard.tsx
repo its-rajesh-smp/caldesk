@@ -1,4 +1,4 @@
-import { ListPlusSVG } from "@/components/svg/ListPlusSvg";
+import { ListPlusSVG } from "@/components/svg/ListPlusSVG";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Plus } from "lucide-react";
