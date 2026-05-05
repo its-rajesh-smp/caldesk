@@ -29,21 +29,21 @@ export function AuthPageFrame(props: AuthPageFrameProps) {
   return (
     <div className="flex h-full flex-col justify-center gap-6 text-foreground">
       <div className="space-y-5">
-        <div className="flex items-center gap-3">
-          <div className="flex size-11 shrink-0 items-center justify-center border border-border bg-background p-2 shadow-sm">
+        <div className="flex items-start gap-3">
+          <div className="flex size-11 min-h-11 min-w-11 shrink-0 items-center justify-center border border-border bg-background p-2 shadow-sm">
             <img src={appIcon} alt="Caldesk" className="size-full" />
           </div>
           <div className="min-w-0">
             <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
               {props.eyebrow}
             </p>
-            <h1 className="truncate text-4xl font-semibold leading-tight text-foreground">
+            <h1 className="text-wrap break-words text-3xl font-semibold leading-tight text-foreground md:text-4xl">
               {props.title}
             </h1>
           </div>
         </div>
 
-        <p className="max-w-sm text-sm/6 text-muted-foreground">
+        <p className="max-w-sm text-sm md:text-sm/6 text-muted-foreground">
           {props.description}
         </p>
 
@@ -82,7 +82,7 @@ export function AuthPageFrame(props: AuthPageFrameProps) {
         <CardContent className="pt-5">{props.children}</CardContent>
       </Card>
 
-      <p className="text-center text-xs text-muted-foreground">
+      <p className="text-center text-xs text-muted-foreground mb-5">
         {props.footer}
       </p>
     </div>
