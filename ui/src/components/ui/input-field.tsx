@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Field, FieldDescription, FieldLabel } from "./field";
+import type { HTMLInputTypeAttribute } from "react";
 
 interface InputFieldProps {
   label?: string;
@@ -7,6 +8,7 @@ interface InputFieldProps {
   fieldDescription?: string;
   fieldClassName?: string;
   defaultValue?: string;
+  type?: HTMLInputTypeAttribute;
 }
 
 export function InputField(props: InputFieldProps) {
@@ -20,7 +22,7 @@ export function InputField(props: InputFieldProps) {
 
       <Input
         id={`input-field-${props.label}`}
-        type="text"
+        type={props.type || "text"}
         placeholder={props.placeholder}
         defaultValue={props.defaultValue}
       />

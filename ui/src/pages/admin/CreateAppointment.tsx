@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
-import { DatePicker } from "@/components/ui/date-picket";
 import { InputField } from "@/components/ui/input-field";
 import { SelectField } from "@/components/ui/select-field";
-import { SwitchField } from "@/components/ui/switch-field";
 import { TextareaField } from "@/components/ui/textarea-field";
 
 const AppointmentTypes = ["One Time", "Recurring"];
@@ -34,7 +32,13 @@ export const CreateAppointment = () => {
               label="Appointment Type"
               fieldClassName="w-1/3"
             />
-            <h3 className="font-bold text-base">Recurrence Pattern</h3>
+
+            <div className="flex gap-5">
+              <InputField type="time" label="Start At" />
+              <InputField type="time" label="End At" />
+            </div>
+
+            {/* <h3 className="font-bold text-base">Recurrence Pattern</h3>
             <div className="flex flex-row items-center gap-2">
               <p>Repeat every</p>
               <InputField
@@ -56,7 +60,7 @@ export const CreateAppointment = () => {
                 label="Never Ends"
               />
               <DatePicker fieldClassName="w-fit gap-2" label="Ends After" />
-            </div>
+            </div> */}
           </div>
         </div>
 
