@@ -37,7 +37,7 @@ export function AuthPageFrame(props: AuthPageFrameProps) {
             <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
               {props.eyebrow}
             </p>
-            <h1 className="text-wrap break-words text-3xl font-semibold leading-tight text-foreground md:text-4xl">
+            <h1 className="text-wrap wrap-break-word text-3xl font-semibold leading-tight text-foreground md:text-4xl">
               {props.title}
             </h1>
           </div>

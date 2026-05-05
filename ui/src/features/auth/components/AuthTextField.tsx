@@ -10,6 +10,7 @@ interface AuthTextFieldProps {
   placeholder: string;
   type?: HTMLInputTypeAttribute;
   action?: ReactNode;
+  name?: string;
 }
 
 export function AuthTextField(props: AuthTextFieldProps) {
@@ -24,6 +25,7 @@ export function AuthTextField(props: AuthTextFieldProps) {
       <div className="relative">
         <Icon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
+          name={props.name}
           id={props.id}
           type={props.type || "text"}
           placeholder={props.placeholder}

@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/features/auth/stores/useAuthStore";
 import axios from "axios";
 
 let isConfigured = false;
@@ -10,7 +11,7 @@ export const configureAxios = () => {
 
   axios.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem("token");
+      const token = useAuthStore.getState().token;
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -37,6 +38,9 @@ export const configureAxios = () => {
       return body;
     },
     (error) => {
+      if (error.response?.status === 401) {
+        useAuthStore.getState().clearAuth();
+      }
       return Promise.reject(error);
     },
   );
