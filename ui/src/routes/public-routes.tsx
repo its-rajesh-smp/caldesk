@@ -1,9 +1,15 @@
+import { SpacedLayout } from "@/components/layouts/SpacedLayout";
 import LandingPage from "@/pages/landing/LandingPage";
 import type { RouteObject } from "react-router";
 
 export const publicRoutes: RouteObject[] = [
   {
-    path: "/",
-    element: <LandingPage />,
+    element: <SpacedLayout />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+    ],
   },
 ];
