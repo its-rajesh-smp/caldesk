@@ -13,4 +13,8 @@ export class Appointment extends Model {
   static async create(appointmentData: Partial<Omit<Appointment, "id">>) {
     return await this.query().insert(appointmentData);
   }
+
+  static async findActiveAppointments() {
+    return await this.query().where({ status: AppointmentStatus.ACTIVE });
+  }
 }

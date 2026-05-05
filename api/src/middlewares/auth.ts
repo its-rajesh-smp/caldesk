@@ -30,3 +30,21 @@ export const verifyUser = async (
 
   next();
 };
+
+export const verifyAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.user) {
+    return res.error("Unauthorized", 401);
+  }
+
+  const user = await User.findById(req.user.id!);
+
+  if (user.role !== "admin") {
+    return res.error("Unauthorized", 401);
+  }
+
+  next();
+};

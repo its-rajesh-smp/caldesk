@@ -13,4 +13,22 @@ export class UserAppointment extends Model {
   ) {
     return await this.query().insert(userAppointmentData);
   }
+
+  static async findOne(filter: Partial<UserAppointment>) {
+    const query = this.query();
+
+    if (filter.id) {
+      query.where({ id: filter.id });
+    }
+
+    if (filter.appointmentId) {
+      query.where({ appointmentId: filter.appointmentId });
+    }
+
+    if (filter.appointmentSlotId) {
+      query.where({ appointmentSlotId: filter.appointmentSlotId });
+    }
+
+    return query.first();
+  }
 }
