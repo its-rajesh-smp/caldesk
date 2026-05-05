@@ -15,7 +15,7 @@ services:
     networks:
       - caldesk_network
   db:
-    container_name: template-postgres
+    container_name: caldesk-postgres
     image: postgres:16.6
     env_file:
       - ./api/.env

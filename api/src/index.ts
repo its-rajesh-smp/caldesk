@@ -3,7 +3,7 @@ import "tsconfig-paths/register"; // Enables path aliases
 import { createExpressApp } from "./app";
 
 const main = async () => {
-  const app = createExpressApp();
+  const app = await createExpressApp();
 
   app.listen(env.PORT, () => {
     console.log(`Server is running on port ${env.PORT}`);
