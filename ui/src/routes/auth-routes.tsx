@@ -7,7 +7,7 @@ import type { RouteObject } from "react-router";
 
 export const authRoutes: RouteObject[] = [
   {
-    element: <SpacedLayout />,
+    element: <SpacedLayout spacingType="auth" />,
     children: [
       {
         path: "/register",

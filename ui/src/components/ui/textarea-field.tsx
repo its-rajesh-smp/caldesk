@@ -5,6 +5,7 @@ interface TextareaFieldProps {
   label?: string;
   placeholder?: string;
   fieldDescription?: string;
+  name?: string;
 }
 
 export function TextareaField(props: TextareaFieldProps) {
@@ -12,7 +13,11 @@ export function TextareaField(props: TextareaFieldProps) {
     <Field>
       <FieldLabel htmlFor="textarea-message">{props.label}</FieldLabel>
       <FieldDescription>{props.fieldDescription}</FieldDescription>
-      <Textarea id="textarea-message" placeholder={props.placeholder} />
+      <Textarea
+        name={props.name}
+        id="textarea-message"
+        placeholder={props.placeholder}
+      />
     </Field>
   );
 }

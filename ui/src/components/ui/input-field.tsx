@@ -9,6 +9,7 @@ interface InputFieldProps {
   fieldClassName?: string;
   defaultValue?: string;
   type?: HTMLInputTypeAttribute;
+  name?: string;
 }
 
 export function InputField(props: InputFieldProps) {
@@ -25,6 +26,7 @@ export function InputField(props: InputFieldProps) {
         type={props.type || "text"}
         placeholder={props.placeholder}
         defaultValue={props.defaultValue}
+        name={props.name}
       />
       {props.fieldDescription && (
         <FieldDescription>{props.fieldDescription}</FieldDescription>

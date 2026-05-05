@@ -1,5 +1,10 @@
 import axios from "axios";
 
-export const createAppointment = async () => {
-  return axios.post("/admin/appointments");
+interface CreateAppointmentInput {
+  title: string;
+  description: string;
+}
+
+export const createAppointment = async (payload: CreateAppointmentInput) => {
+  return axios.post("/admin/appointments", payload);
 };

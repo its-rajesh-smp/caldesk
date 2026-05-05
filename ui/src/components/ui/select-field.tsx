@@ -17,6 +17,7 @@ interface SelectFieldProps {
   options: string[];
   defaultValue?: string;
   fieldClassName?: string;
+  name?: string;
 }
 
 export function SelectField(props: SelectFieldProps) {
@@ -28,7 +29,7 @@ export function SelectField(props: SelectFieldProps) {
       {props.fieldDescription && (
         <FieldDescription>{props.fieldDescription}</FieldDescription>
       )}
-      <Select defaultValue={props.defaultValue}>
+      <Select name={props.name} defaultValue={props.defaultValue}>
         <SelectTrigger>
           <SelectValue />
         </SelectTrigger>

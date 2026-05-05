@@ -5,39 +5,83 @@ import { InputField } from "@/components/ui/input-field";
 import { SelectField } from "@/components/ui/select-field";
 import { TextareaField } from "@/components/ui/textarea-field";
 import { createAppointment } from "@/features/admin/apis/createAppointment";
-import { useMutation } from "@tanstack/react-query";
+import { formatStringToDate } from "@/utils/date";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const AppointmentTypes = ["One Time", "Recurring"];
 
 export const CreateAppointment = () => {
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
+  const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: createAppointment,
     onSuccess: () => {
-      console.log("appointment created");
+      queryClient.invalidateQueries({
+        queryKey: ["appointments"],
+      });
+      navigate("/admin/appointments");
     },
   });
 
   const onSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
-    mutation.mutate();
+
+    const formData = new FormData(e.target);
+
+    const startAt = formData.get("startAt") as string;
+    const endAt = formData.get("endAt") as string;
+
+    // Combine date + time
+    const startDateTime = formatStringToDate(
+      `${date!.toDateString()} ${startAt}`,
+    );
+    const endDateTime = formatStringToDate(`${date!.toDateString()} ${endAt}`);
+
+    const payload = {
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      url: formData.get("url") as string,
+      startDateTime,
+      endDateTime,
+    };
+
+    console.log(payload);
+    mutation.mutate(payload);
   };
 
   return (
     <Card className="bg-background p-5">
       <h1 className="text-3xl font-bold">Create Appointment</h1>
       <form onSubmit={onSubmit} className=" flex flex-col gap-5">
-        <InputField label="Title" placeholder="Eg. Monday Standup" />
+        <InputField
+          name="title"
+          label="Title"
+          placeholder="Eg. Monday Standup"
+        />
         <TextareaField
+          name="description"
           label="Description"
           placeholder="Add meeting description..."
         />
         <InputField
+          name="url"
           label="Meeting URL"
           placeholder="Eg. https://meet.google.com/czm-ftxb-enb"
         />
         <div className="flex gap-5">
           <Card className="w-1/3">
-            <Calendar className="w-full" mode="single" />
+            <Calendar
+              onSelect={setDate}
+              selected={date}
+              className="w-full"
+              mode="single"
+            />
           </Card>
           <div className="flex-1 flex flex-col gap-5">
             <SelectField
@@ -48,8 +92,8 @@ export const CreateAppointment = () => {
             />
 
             <div className="flex gap-5">
-              <InputField type="time" label="Start At" />
-              <InputField type="time" label="End At" />
+              <InputField name="startAt" type="time" label="Start At" />
+              <InputField name="endAt" type="time" label="End At" />
             </div>
 
             {/* <h3 className="font-bold text-base">Recurrence Pattern</h3>
