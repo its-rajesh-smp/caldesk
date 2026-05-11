@@ -27,6 +27,12 @@ export async function seed(knex: Knex): Promise<void> {
         password: hashedPassword,
         role: UserType.USER,
       },
+      {
+        id: createStaticUUID("user-4"),
+        email: "doctor@gmail.com",
+        password: hashedPassword,
+        role: UserType.ADMIN,
+      },
     ])
     .onConflict("email")
     .ignore();

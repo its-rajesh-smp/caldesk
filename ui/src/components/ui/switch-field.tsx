@@ -12,7 +12,8 @@ interface SwitchFieldProps {
   fieldDescription?: string;
   fieldClassName?: string;
   fieldOrientation?: "horizontal" | "vertical";
-  defaultValue?: boolean;
+  onChange?: (value: boolean) => void;
+  value?: boolean;
 }
 
 export function SwitchField(props: SwitchFieldProps) {
@@ -25,7 +26,13 @@ export function SwitchField(props: SwitchFieldProps) {
         <FieldLabel htmlFor="switch-focus-mode">{props.label}</FieldLabel>
         <FieldDescription>{props.fieldDescription}</FieldDescription>
       </FieldContent>
-      <Switch checked={props.defaultValue} id="switch-focus-mode" />
+      <Switch
+        onCheckedChange={(checked) => {
+          props.onChange && props.onChange(checked);
+        }}
+        checked={props.value}
+        id="switch-focus-mode"
+      />
     </Field>
   );
 }

@@ -10,6 +10,9 @@ interface InputFieldProps {
   defaultValue?: string;
   type?: HTMLInputTypeAttribute;
   name?: string;
+  min?: number;
+  value?: string | number;
+  onChange?: (value: string) => void;
 }
 
 export function InputField(props: InputFieldProps) {
@@ -26,7 +29,10 @@ export function InputField(props: InputFieldProps) {
         type={props.type || "text"}
         placeholder={props.placeholder}
         defaultValue={props.defaultValue}
+        value={props.value}
         name={props.name}
+        min={props.min}
+        onChange={(e) => props.onChange && props.onChange(e.target.value)}
       />
       {props.fieldDescription && (
         <FieldDescription>{props.fieldDescription}</FieldDescription>

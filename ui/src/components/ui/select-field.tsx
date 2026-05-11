@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import _ from "lodash";
 
 interface SelectFieldProps {
   label?: string;
@@ -18,6 +19,8 @@ interface SelectFieldProps {
   defaultValue?: string;
   fieldClassName?: string;
   name?: string;
+  onChange?: (value: string) => void;
+  value?: string;
 }
 
 export function SelectField(props: SelectFieldProps) {
@@ -29,7 +32,11 @@ export function SelectField(props: SelectFieldProps) {
       {props.fieldDescription && (
         <FieldDescription>{props.fieldDescription}</FieldDescription>
       )}
-      <Select name={props.name} defaultValue={props.defaultValue}>
+      <Select
+        onValueChange={props.onChange}
+        name={props.name}
+        defaultValue={props.value || props.defaultValue}
+      >
         <SelectTrigger>
           <SelectValue />
         </SelectTrigger>
@@ -37,7 +44,7 @@ export function SelectField(props: SelectFieldProps) {
           <SelectGroup>
             {props.options.map((option) => (
               <SelectItem key={option} value={option}>
-                {option}
+                {_.capitalize(option)}
               </SelectItem>
             ))}
           </SelectGroup>
