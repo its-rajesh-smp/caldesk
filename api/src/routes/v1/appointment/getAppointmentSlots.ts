@@ -6,6 +6,8 @@ export const getAppointmentSlots = async (
   res: Response,
 ) => {
   const { appointmentId } = req.params;
-  const slots = await AppointmentSlot.findByAppointmentId(appointmentId);
+  const slots = await AppointmentSlot.findByAppointmentIdWithBooking(
+    appointmentId,
+  );
   return res.success(slots);
 };

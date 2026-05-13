@@ -3,6 +3,7 @@ import { UserType } from "../../types/users";
 
 export class User extends Model {
   id!: string;
+  name!: string;
   email!: string;
   password!: string;
   role!: UserType;

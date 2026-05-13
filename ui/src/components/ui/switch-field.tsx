@@ -28,7 +28,9 @@ export function SwitchField(props: SwitchFieldProps) {
       </FieldContent>
       <Switch
         onCheckedChange={(checked) => {
-          props.onChange && props.onChange(checked);
+          if (props.onChange) {
+            props.onChange(checked);
+          }
         }}
         checked={props.value}
         id="switch-focus-mode"

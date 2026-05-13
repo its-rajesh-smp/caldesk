@@ -6,6 +6,7 @@ import {
   ArrowRight,
   CalendarDays,
   CheckCircle2,
+  Loader2,
   LockKeyhole,
   Mail,
   ShieldCheck,
@@ -87,9 +88,24 @@ const LoginPage = () => {
           }
         />
 
-        <Button type="submit" size="lg" className="h-11 w-full text-sm">
-          Continue
-          <ArrowRight className="size-4" />
+        {loginMutation.isError && (
+          <p className="border border-destructive/30 bg-destructive/10 p-3 text-xs text-destructive">
+            Could not login. Please check your email and password.
+          </p>
+        )}
+
+        <Button
+          type="submit"
+          size="lg"
+          disabled={loginMutation.isPending}
+          className="h-11 w-full text-sm"
+        >
+          {loginMutation.isPending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <ArrowRight className="size-4" />
+          )}
+          {loginMutation.isPending ? "Signing in..." : "Continue"}
         </Button>
       </form>
     </AuthPageFrame>

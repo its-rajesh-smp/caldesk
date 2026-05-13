@@ -2,6 +2,7 @@ import { User } from "@models/User";
 import { verifyJwtToken } from "@utils/jwt";
 
 import { NextFunction, Request, Response } from "express";
+import { UserType } from "../types/users";
 
 export const verifyUser = async (
   req: Request,
@@ -42,9 +43,28 @@ export const verifyAdmin = async (
 
   const user = await User.findById(req.user.id!);
 
-  if (user.role !== "admin") {
+  if (user.role !== UserType.ADMIN) {
     return res.error("Unauthorized", 401);
   }
 
+  next();
+};
+
+export const verifyDoctor = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.user) {
+    return res.error("Unauthorized", 401);
+  }
+
+  const user = await User.findById(req.user.id!);
+
+  if (user.role !== UserType.DOCTOR && user.role !== UserType.ADMIN) {
+    return res.error("Only doctors can manage consultation slots", 403);
+  }
+
+  req.user = user;
   next();
 };
