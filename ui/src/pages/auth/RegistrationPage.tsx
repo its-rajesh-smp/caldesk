@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { registerUser } from "@/features/auth/apis/registerUser";
+import { useAuthStore } from "@/features/auth/stores/useAuthStore";
+import { useMutation } from "@tanstack/react-query";
 import {
   ArrowRight,
-  Building2,
   CalendarDays,
   CheckCircle2,
   LockKeyhole,
@@ -9,11 +11,38 @@ import {
   ShieldCheck,
   UserRound,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthPageFrame } from "../../features/auth/components/AuthPageFrame";
 import { AuthTextField } from "../../features/auth/components/AuthTextField";
 
 const RegistrationPage = () => {
+  const navigate = useNavigate();
+  const { setAuth } = useAuthStore();
+
+  const registerMutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      setAuth(data);
+      navigate("/");
+    },
+  });
+
+  const onClick = (e: React.SubmitEvent) => {
+    try {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+
+      registerMutation.mutateAsync({
+        name: formData.get("name") as string,
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <AuthPageFrame
       eyebrow="Start organized"
@@ -38,18 +67,13 @@ const RegistrationPage = () => {
         </>
       }
     >
-      <form className="flex flex-col gap-5">
+      <form onSubmit={onClick} className="flex flex-col gap-5">
         <AuthTextField
           id="register-name"
           label="Full name"
           icon={UserRound}
           placeholder="Suresh Kumar"
-        />
-        <AuthTextField
-          id="register-workspace"
-          label="Workspace name"
-          icon={Building2}
-          placeholder="Caldesk Clinic"
+          name="name"
         />
         <AuthTextField
           id="register-email"
@@ -57,6 +81,7 @@ const RegistrationPage = () => {
           icon={Mail}
           type="email"
           placeholder="suresh@gmail.com"
+          name="email"
         />
         <AuthTextField
           id="register-password"
@@ -64,9 +89,15 @@ const RegistrationPage = () => {
           icon={LockKeyhole}
           type="password"
           placeholder="Create a strong password"
+          name="password"
         />
 
-        <Button type="submit" size="lg" className="h-11 w-full text-sm">
+        <Button
+          loading={registerMutation.isPending}
+          type="submit"
+          size="lg"
+          className="h-11 w-full text-sm"
+        >
           Create account
           <ArrowRight className="size-4" />
         </Button>

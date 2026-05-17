@@ -6,6 +6,7 @@ export class User extends Model {
   email!: string;
   password!: string;
   role!: UserType;
+  name?: string;
 
   static tableName = "users";
 

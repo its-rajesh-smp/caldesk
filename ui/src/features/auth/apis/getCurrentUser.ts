@@ -1,6 +1,6 @@
-import axios from "axios";
+import { api } from "@/services/api";
 import type { User } from "../types/user";
 
 export const getCurrentUser = (): Promise<User> => {
-  return axios.get("/me");
+  return api.get("/me");
 };

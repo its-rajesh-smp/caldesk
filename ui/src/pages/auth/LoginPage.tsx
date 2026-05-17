@@ -36,7 +36,7 @@ const LoginPage = () => {
 
     const formData = new FormData(e.target);
 
-    loginMutation.mutate({
+    loginMutation.mutateAsync({
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     });

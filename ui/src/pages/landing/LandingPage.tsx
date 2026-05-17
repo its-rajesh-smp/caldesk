@@ -1,6 +1,9 @@
 import appIcon from "@/assets/app-icon.png";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useAuthStore } from "@/features/auth/stores/useAuthStore";
+import type { UserRole } from "@/features/auth/types/user";
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   Bell,
@@ -8,6 +11,7 @@ import {
   CheckCircle2,
   CreditCard,
   Globe2,
+  Layout,
   LockKeyhole,
   Mail,
   MonitorPlay,
@@ -15,7 +19,6 @@ import {
   ShieldCheck,
   Video,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router";
 
 const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -32,7 +35,8 @@ const featureSections = [
   {
     icon: Route,
     title: "Route every booking",
-    description: "Send leads, interviews, demos, or support calls to the right host.",
+    description:
+      "Send leads, interviews, demos, or support calls to the right host.",
     rows: ["Round robin", "Team events", "Qualification forms"],
   },
   {
@@ -70,7 +74,24 @@ const moreFeatures: Array<{
   },
 ];
 
+const getDashboardUrl = (role: UserRole | undefined) => {
+  switch (role) {
+    case "admin":
+      return "/admin/dashboard";
+    case "user":
+      return "/user/dashboard";
+    case "doctor":
+      return "/doctor/dashboard";
+    case "clinic":
+      return "/clinic/dashboard";
+    default:
+      return "/";
+  }
+};
+
 const LandingPage = () => {
+  const { isAuthenticated, user } = useAuthStore();
+
   return (
     <main className="flex min-w-0 flex-col gap-8 pb-10">
       <nav className="flex items-center justify-between border border-border bg-background p-3 shadow-sm">
@@ -91,14 +112,25 @@ const LandingPage = () => {
           </a>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/login">Login</Link>
-          </Button>
-          <Button size="sm" asChild>
-            <Link to="/register">Get started</Link>
-          </Button>
-        </div>
+        {!isAuthenticated() && (
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/login">Login</Link>
+            </Button>
+            <Button size="sm" asChild>
+              <Link to="/register">Get started</Link>
+            </Button>
+          </div>
+        )}
+
+        {isAuthenticated() && (
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm">
+              <Layout />
+              <Link to={getDashboardUrl(user?.role)}>Dashboard</Link>
+            </Button>
+          </div>
+        )}
       </nav>
 
       <section className="grid gap-6 border border-border bg-background p-4 shadow-sm md:grid-cols-[0.86fr_1.14fr] md:p-6">
@@ -176,7 +208,10 @@ const LandingPage = () => {
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
                 {eventTypes.map((type) => (
-                  <span key={type} className="border border-border px-3 py-2 text-xs">
+                  <span
+                    key={type}
+                    className="border border-border px-3 py-2 text-xs"
+                  >
                     {type}
                   </span>
                 ))}
@@ -203,7 +238,9 @@ const LandingPage = () => {
                   </span>
                 ))}
                 {calendarDates.map((date) => {
-                  const available = [6, 7, 13, 14, 20, 21, 27, 28].includes(date);
+                  const available = [6, 7, 13, 14, 20, 21, 27, 28].includes(
+                    date,
+                  );
                   const selected = date === 14;
                   return (
                     <span
@@ -254,11 +291,15 @@ const LandingPage = () => {
 
       <section className="border-y border-border py-4">
         <p className="text-center text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          Scheduling for sales, recruiting, support, education, healthcare, and creators
+          Scheduling for sales, recruiting, support, education, healthcare, and
+          creators
         </p>
       </section>
 
-      <section id="features" className="grid gap-5 md:grid-cols-[0.85fr_1.15fr]">
+      <section
+        id="features"
+        className="grid gap-5 md:grid-cols-[0.85fr_1.15fr]"
+      >
         <div className="border border-border bg-background p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
             How it works
@@ -283,8 +324,12 @@ const LandingPage = () => {
                       <Icon className="size-4" />
                     </div>
                     <div>
-                      <p className="text-xs text-muted-foreground">0{index + 1}</p>
-                      <h3 className="mt-1 text-lg font-semibold">{feature.title}</h3>
+                      <p className="text-xs text-muted-foreground">
+                        0{index + 1}
+                      </p>
+                      <h3 className="mt-1 text-lg font-semibold">
+                        {feature.title}
+                      </h3>
                       <p className="mt-1 text-sm/6 text-muted-foreground">
                         {feature.description}
                       </p>
@@ -293,7 +338,10 @@ const LandingPage = () => {
                 </div>
                 <div className="grid gap-2 sm:grid-cols-3">
                   {feature.rows.map((row) => (
-                    <span key={row} className="border border-border px-3 py-2 text-xs">
+                    <span
+                      key={row}
+                      className="border border-border px-3 py-2 text-xs"
+                    >
                       {row}
                     </span>
                   ))}
@@ -312,7 +360,9 @@ const LandingPage = () => {
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
             Workflows
           </p>
-          <h2 className="mt-3 text-3xl font-semibold">Bookings should run themselves.</h2>
+          <h2 className="mt-3 text-3xl font-semibold">
+            Bookings should run themselves.
+          </h2>
           <p className="mt-3 max-w-md text-sm/7 text-muted-foreground">
             Send confirmations, collect intake details, remind attendees, and
             let them reschedule without messaging you.
@@ -357,14 +407,18 @@ const LandingPage = () => {
           <div key={title} className="border border-border bg-background p-4">
             <Icon className="mb-3 size-5" />
             <h3 className="text-sm font-semibold">{title}</h3>
-            <p className="mt-1 text-xs/6 text-muted-foreground">{description}</p>
+            <p className="mt-1 text-xs/6 text-muted-foreground">
+              {description}
+            </p>
           </div>
         ))}
       </section>
 
       <section className="grid gap-4 border border-border bg-foreground p-5 text-background md:grid-cols-[1fr_auto] md:items-center">
         <div>
-          <h2 className="text-2xl font-semibold">Start scheduling with CalDesk.</h2>
+          <h2 className="text-2xl font-semibold">
+            Start scheduling with CalDesk.
+          </h2>
           <p className="mt-2 text-sm/6 text-background/70">
             Create event types, share your booking page, and manage meetings in
             one place.

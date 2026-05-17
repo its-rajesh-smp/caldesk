@@ -1,12 +1,15 @@
 import type { Knex } from "knex";
-import { AppointmentHostType } from "../../types/appointment_hosts";
+import {
+  AppointmentHostType,
+  AppointmentHostTypes,
+} from "../../types/appointment_hosts";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("appointment_hosts", (table) => {
     table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
 
     table
-      .enum("type", [AppointmentHostType.CO_HOST, AppointmentHostType.HOST])
+      .enum("type", AppointmentHostTypes)
       .notNullable()
       .defaultTo(AppointmentHostType.CO_HOST);
 

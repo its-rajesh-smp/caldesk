@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/services/api";
 import type { User } from "../types/user";
 
 interface LoginUserInput {
@@ -14,5 +14,5 @@ interface LoginResponse {
 export const loginUser = async (
   payload: LoginUserInput,
 ): Promise<LoginResponse> => {
-  return axios.post("/auth/login", payload);
+  return api.post("/auth/login", payload);
 };

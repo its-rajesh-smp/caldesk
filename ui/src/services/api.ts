@@ -1,49 +1,40 @@
 import { useAuthStore } from "@/features/auth/stores/useAuthStore";
 import axios from "axios";
 
-let isConfigured = false;
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api/v1",
+});
 
-export const configureAxios = () => {
-  if (isConfigured) return;
+api.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
 
-  axios.defaults.baseURL =
-    import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api/v1";
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-  axios.interceptors.request.use(
-    (config) => {
-      const token = useAuthStore.getState().token;
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    },
-  );
+  return config;
+});
 
-  axios.interceptors.response.use(
-    (response) => {
-      const body = response.data;
+api.interceptors.response.use(
+  (response) => {
+    const body = response.data;
 
-      if (
-        body &&
-        typeof body === "object" &&
-        "success" in body &&
-        "data" in body
-      ) {
-        return body.data;
-      }
+    if (
+      body &&
+      typeof body === "object" &&
+      "success" in body &&
+      "data" in body
+    ) {
+      return body.data;
+    }
 
-      return body;
-    },
-    (error) => {
-      if (error.response?.status === 401) {
-        useAuthStore.getState().clearAuth();
-      }
-      return Promise.reject(error);
-    },
-  );
+    return body;
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      useAuthStore.getState().clearAuth();
+    }
 
-  isConfigured = true;
-};
+    return Promise.reject(error);
+  },
+);
